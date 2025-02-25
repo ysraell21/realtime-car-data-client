@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
               )}
             </button>
           </div>
-          <hr className="mt-2 border-gray-700" />
+          <hr className="mt-5 border-gray-700" />
         </div>
 
         <div className="mt-5 flex-1">
