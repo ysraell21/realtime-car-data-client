@@ -20,7 +20,6 @@ const EditModal: React.FC<EditModalProps> = ({ open, onClose, trip }) => {
     price: 0,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  console.log("🚀 ~ errors:", errors);
 
   useEffect(() => {
     if (trip) {
