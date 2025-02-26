@@ -9,6 +9,7 @@ import DataTable from "react-data-table-component";
 import DeleteModal from "../components/DeleteModal";
 import ViewModal from "../components/ViewModal";
 import EditModal from "../components/EditModal";
+import moment from "moment-timezone";
 
 const columns = [
   {
@@ -22,13 +23,23 @@ const columns = [
     sortable: true,
   },
   {
-    name: "Start Location",
+    name: <div style={{ textAlign: "center" }}>Start<br />Location</div>,
     selector: (row: Record<string, any>) => row.startLocation,
     sortable: true,
   },
   {
-    name: "End Location",
+    name: <div style={{ textAlign: "center" }}>End<br />Location</div>,
     selector: (row: Record<string, any>) => row.endLocation,
+    sortable: true,
+  },
+  {
+    name: <div style={{ textAlign: "center" }}>Created<br />Date</div>,
+    selector: (row: Record<string, any>) => row.createdAt,
+    sortable: true,
+  },
+  {
+    name: <div style={{ textAlign: "center" }}>Updated<br />Date</div>,
+    selector: (row: Record<string, any>) => row.updatedAt,
     sortable: true,
   },
   {
@@ -51,33 +62,40 @@ const Trip: React.FC = () => {
     try {
       const response = await axios.get("/trips");
       const data = response.data.data;
-      const formatData = data.map((trip: Record<string, any>) => {
-        return {
-          ...trip,
-          actions: (
-            <div className="flex items-center space-x-3">
-              <MdDeleteForever
-                className="text-red-500 cursor-pointer"
-                size={20}
-                title="Delete"
-                onClick={() => handleOpenDeleteModal(trip)}
-              />
-              <FaEdit
-                className="text-yellow-500 cursor-pointer"
-                size={20}
-                title="Edit"
-                onClick={() => handleOpenEditModal(trip)}
-              />
-              <FaEye
-                className="text-blue-500 cursor-pointer"
-                size={20}
-                title="View"
-                onClick={() => handleOpenViewModal(trip)}
-              />
-            </div>
-          ),
-        };
-      });
+      const formatData = data
+        .sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        .map((trip: Record<string, any>) => {
+          return {
+            ...trip,
+            createdAt: moment(trip?.createdAt).format("MM/D YYYY - h:mm A"),
+            updatedAt: moment(trip?.updatedAt).format("MM/D YYYY - h:mm A"),
+            actions: (
+              <div className="flex items-center space-x-3">
+                <MdDeleteForever
+                  className="text-red-500 cursor-pointer"
+                  size={20}
+                  title="Delete"
+                  onClick={() => handleOpenDeleteModal(trip)}
+                />
+                <FaEdit
+                  className="text-yellow-500 cursor-pointer"
+                  size={20}
+                  title="Edit"
+                  onClick={() => handleOpenEditModal(trip)}
+                />
+                <FaEye
+                  className="text-blue-500 cursor-pointer"
+                  size={20}
+                  title="View"
+                  onClick={() => handleOpenViewModal(trip)}
+                />
+              </div>
+            ),
+          };
+        });
       setTrips(formatData);
     } catch (error) {
       toast.error("Failed to fetch trips");
@@ -152,6 +170,9 @@ const Trip: React.FC = () => {
         fontWeight: "bold",
         color: "#ffffff",
         backgroundColor: "#101828",
+        whiteSpace: "normal", 
+        textAlign: "center" as const,
+        padding: "10px",
       },
     },
   };

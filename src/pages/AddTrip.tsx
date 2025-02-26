@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import moment from "moment-timezone";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddTrip: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     vehicleId: "",
     startLocation: "",
@@ -22,7 +24,16 @@ const AddTrip: React.FC = () => {
     try {
       setErrors({});
       await axios.post(`/trips/create-trip`, formData);
+      setFormData({
+        vehicleId: "",
+        startLocation: "",
+        endLocation: "",
+        startDateTime: "",
+        endDateTime: "",
+        price: 0,
+      })
       toast.success("Trip created successfully");
+      navigate("/trips");
     } catch (error: any) {
       if (error.response?.status === 400) {
         if (error.response.data.field === "vehicleId") {

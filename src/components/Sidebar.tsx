@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { LuChevronFirst, LuChevronLast } from "react-icons/lu";
 import { FaCar, FaPlusCircle, FaMapMarkerAlt } from "react-icons/fa";
+import { RiHome3Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
@@ -39,6 +40,7 @@ const Sidebar: React.FC = () => {
         <div className="mt-5 flex-1">
           <ul className="px-2 space-y-2">
             {[
+              { name: "Home", icon: RiHome3Fill, path: "/home" },
               { name: "Trips", icon: FaCar, path: "/trips" },
               { name: "Add Trips", icon: FaPlusCircle, path: "/add-trips" },
               {

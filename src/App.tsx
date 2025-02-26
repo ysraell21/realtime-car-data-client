@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router-dom";
 import AddTrip from "./pages/AddTrip";
 import RealTimeMap from "./pages/RealTimeMap";
+import Home from "./pages/Home";
 
 axios.defaults.baseURL = "http://localhost:1747";
 axios.defaults.withCredentials = true;
@@ -18,7 +19,8 @@ const App: React.FC = () => {
         <Sidebar />
         <div className="flex-1 p-4 overflow-auto">
           <Routes>
-            <Route path="*" element={<Navigate to="/trips" />} />
+            <Route path="*" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/trips" element={<Trip />} />
             <Route path="/add-trips" element={<AddTrip />} />
             <Route path="/real-time-car-location" element={<RealTimeMap />} />
